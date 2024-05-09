@@ -1,7 +1,6 @@
 {
   "name": "firebaseapp",
   "version": "1.0.0",
-  "main": "index.js",
   "homepage": "https://sl0mek.github.io/FirebaseApp/",
   "scripts": {
     "start": "parcel src/*.html",

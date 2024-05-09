@@ -1,0 +1,21 @@
+{
+  "name": "firebaseapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/*.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrzej Słomka",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "firebase": "^10.11.1",
+    "firebaseui": "^6.1.0",
+    "parcel": "^2.12.0"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
+  }
+}

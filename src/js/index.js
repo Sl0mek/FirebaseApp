@@ -31,7 +31,7 @@ logoutContainer.addEventListener('click', ev => {
 document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('userEmail')) {
         const userEmail = localStorage.getItem('userEmail');
-        document.getElementById('userEmailParagraph').textContent = `Witaj, ${userEmail}!`;
+        document.getElementById('userEmailParagraph').textContent = `Hello, ${userEmail}!`;
         loginSignContainer.classList.add('d-none');
         logoutContainer.classList.remove('d-none');
     } else {

@@ -19,11 +19,9 @@ submitButton.addEventListener('click', ev => {
 
     firebase.tryCreateUser(email, password)
     .then((userCredential) => {
-        // Signed in 
         console.log("ok")
         const user = userCredential.data.user;
         console.log(user)
-        // ...
     })
     .catch((error) => {
         console.log("nok")

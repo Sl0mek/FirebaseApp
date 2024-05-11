@@ -4,6 +4,11 @@ const signUpButton = document.querySelector('button.btn.btn-primary');
 const logInButton = document.querySelector('button.btn.btn-outline-success');
 const loginSignContainer = document.querySelector('.login-sign-container');
 const logoutContainer = document.querySelector('.logout-container');
+const userEmailHeader = document.querySelector('h2.userEmail.mb-3');
+const containerDiv = document.querySelector('div.container.mb-3');
+const taskList = document.querySelector('ul#taskList.list-group.mt-3');
+const addButton = document.querySelector('button.btn.btn-success.mb-3.shadow');
+const taskNameInput = document.querySelector('input#taskName.form-control');
 
 
 logInButton.addEventListener('click', ev => {
@@ -22,6 +27,7 @@ logoutContainer.addEventListener('click', ev => {
         console.log(`Unlogged ${userEmail}`);
         loginSignContainer.classList.remove('d-none');
         logoutContainer.classList.add('d-none');
+        containerDiv.classList.add('d-none');
     })
     .catch((error) => {
         console.log(error);
@@ -31,11 +37,46 @@ logoutContainer.addEventListener('click', ev => {
 document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('userEmail')) {
         const userEmail = localStorage.getItem('userEmail');
-        document.getElementById('userEmailParagraph').textContent = `Hello, ${userEmail}!`;
         loginSignContainer.classList.add('d-none');
         logoutContainer.classList.remove('d-none');
+        containerDiv.classList.remove('d-none');
+        userEmailHeader.textContent = `Hello, ${userEmail}!`;
+        firebase.getUsersTasks(userEmail)
+        .then(data => {
+            const qs = data.data;
+            qs.forEach((doc) => {
+                const newItem = document.createElement('li');
+                newItem.classList.add('list-group-item');
+                if(doc.data().isDone){
+                    newItem.classList.add('bg-success');
+                }else{
+                    newItem.classList.add('bg-warning');
+                }
+                newItem.textContent = doc.data().name;
+                taskList.appendChild(newItem);
+            });
+        })
     } else {
         loginSignContainer.classList.remove('d-none');
         logoutContainer.classList.add('d-none');
+        containerDiv.classList.add('d-none');
     }
+});
+
+
+addButton.addEventListener('click', ev => {
+    ev.preventDefault();
+    const userEmail = localStorage.getItem('userEmail');
+    const task = taskNameInput.value;
+    console.log("task: ", task);
+    if(task){
+        firebase.addNewTaskToUser(userEmail, task)
+        .then((data) => {
+            console.log("Addedd: ", data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+    
 });

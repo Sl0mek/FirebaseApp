@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut  } from "firebase/auth";
+import { getFirestore, doc, getDoc, getDocs, collection, setDoc, query, where } from "firebase/firestore";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCsQDagi6-tTSsYMOq-bnTdsc94MySc54Y",
@@ -12,6 +13,8 @@ export const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+
 
 
 export function tryLoginUser(email, password){
@@ -49,4 +52,49 @@ export function tryCreateUser(email, password){
         });
     });
 }
+
+export function  getUsersTasks(email){
+    const q = query(collection(db, "todo"), where("user", "==", email));
+    console.log(email);
+
+    return new Promise((resolve, reject) => {
+        getDocs(q)
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+            });
+            resolve({ data: querySnapshot, error: null });
+        })
+        .catch((error) => {
+            console.log("No such document!");
+            reject({ data: null, error: error });
+        });
+    });
+}
+
+
+export function addNewTaskToUser(email, task){
+    // Add a new document with a generated id
+    const todo = doc(collection(db, "todo"));
+    const data = {
+        user: email,
+        name: task,
+        isDone: false
+    }
+
+    return new Promise((resolve, reject) => {
+        setDoc(todo, data)
+        .then((data) => {
+            console.log("Added: ", data);
+            resolve(data);
+        })
+        .catch((error) => {
+            console.log("No such document!");
+            reject(error);
+        });
+    });
+
+}
+
 

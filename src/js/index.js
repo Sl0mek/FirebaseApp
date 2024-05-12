@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     newItem.classList.add('bg-warning');
                 }
                 newItem.textContent = doc.data().name;
+                newItem.id = doc.id;
                 taskList.appendChild(newItem);
             });
         })
@@ -73,6 +74,7 @@ addButton.addEventListener('click', ev => {
         firebase.addNewTaskToUser(userEmail, task)
         .then((data) => {
             console.log("Addedd: ", data);
+            refreshTasks(userEmail);
         })
         .catch((error) => {
             console.log(error);
@@ -80,3 +82,43 @@ addButton.addEventListener('click', ev => {
     }
     
 });
+
+taskList.addEventListener('click', ev => {
+    if(ev.target.id){
+        console.log(ev.target.id);
+        if(ev.target.classList.contains('bg-warning')){
+            firebase.confirmTask(ev.target.id)
+            .then(data =>{
+                ev.target.classList.add('bg-success');
+                ev.target.classList.remove('bg-warning');
+            })
+        }else if(ev.target.classList.contains('bg-success')){
+            firebase.deleteTask(ev.target.id)
+            .then(id =>{
+                const userEmail = localStorage.getItem('userEmail');
+                refreshTasks(userEmail);
+            })
+        }
+        
+    }
+});
+
+function refreshTasks(userEmail){
+    taskList.innerHTML = "";
+    firebase.getUsersTasks(userEmail)
+        .then(data => {
+            const qs = data.data;
+            qs.forEach((doc) => {
+                const newItem = document.createElement('li');
+                newItem.classList.add('list-group-item');
+                if(doc.data().isDone){
+                    newItem.classList.add('bg-success');
+                }else{
+                    newItem.classList.add('bg-warning');
+                }
+                newItem.textContent = doc.data().name;
+                newItem.id = doc.id;
+                taskList.appendChild(newItem);
+            });
+        })
+}

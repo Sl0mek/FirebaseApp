@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut  } from "firebase/auth";
-import { getFirestore, doc, getDoc, getDocs, collection, setDoc, query, where } from "firebase/firestore";
+import { getFirestore, doc, getDoc, getDocs, collection, setDoc, query, where, updateDoc, deleteDoc  } from "firebase/firestore";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCsQDagi6-tTSsYMOq-bnTdsc94MySc54Y",
@@ -73,7 +73,6 @@ export function  getUsersTasks(email){
     });
 }
 
-
 export function addNewTaskToUser(email, task){
     // Add a new document with a generated id
     const todo = doc(collection(db, "todo"));
@@ -97,4 +96,35 @@ export function addNewTaskToUser(email, task){
 
 }
 
+export function confirmTask(id){
+    const taskRef = doc(db, "todo", id);
+    const data = {
+        isDone: true
+    }
+    return new Promise((resolve, reject) => {
+        updateDoc(taskRef, data)
+        .then((data) => {
+            console.log(`Updated ${id}: ${data}`);
+            resolve(data);
+        })
+        .catch((error) => {
+            console.log("Wrong update!");
+            reject(error);
+        });
+    });
+}
 
+export function deleteTask(id){
+    const taskRef = doc(db, "todo", id);
+    return new Promise((resolve, reject) => {
+        deleteDoc(taskRef)
+        .then((id) => {
+            console.log(`Deleted ${id}`);
+            resolve(id);
+        })
+        .catch((error) => {
+            console.log("Wrong deleted!");
+            reject(error);
+        });
+    });
+}

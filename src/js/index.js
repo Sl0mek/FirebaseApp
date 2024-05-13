@@ -46,14 +46,42 @@ document.addEventListener('DOMContentLoaded', function() {
             const qs = data.data;
             qs.forEach((doc) => {
                 const newItem = document.createElement('li');
-                newItem.classList.add('list-group-item');
+                const button = document.createElement('button');
+                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between');
                 if(doc.data().isDone){
                     newItem.classList.add('bg-success');
+
+                    button.textContent = 'Delete';
+                    button.classList.add('btn', 'btn-danger', 'btn-sm', 'btn-block');
+                    button.style.width = '80px';
+                    button.id = doc.id;
+                    button.addEventListener('click', (ev) => {
+                        firebase.deleteTask(ev.target.id)
+                        .then(data =>{
+                            ev.target.classList.remove('bg-success');
+                            ev.target.classList.add('bg-warning');
+                            refreshTasks(userEmail);
+                        })
+                    });
                 }else{
                     newItem.classList.add('bg-warning');
+
+                    button.textContent = 'Confirm';
+                    button.classList.add('btn', 'btn-success', 'btn-sm', 'mr-2', 'btn-block');
+                    button.style.width = '80px';
+                    button.id = doc.id;
+                    button.addEventListener('click', (ev) => {
+                        firebase.confirmTask(ev.target.id)
+                        .then(data =>{
+                            refreshTasks(userEmail);
+                        })
+                    });
                 }
                 newItem.textContent = doc.data().name;
-                newItem.id = doc.id;
+                // newItem.id = doc.id;
+                
+                newItem.appendChild(button);
+
                 taskList.appendChild(newItem);
             });
         })
@@ -83,26 +111,6 @@ addButton.addEventListener('click', ev => {
     
 });
 
-taskList.addEventListener('click', ev => {
-    if(ev.target.id){
-        console.log(ev.target.id);
-        if(ev.target.classList.contains('bg-warning')){
-            firebase.confirmTask(ev.target.id)
-            .then(data =>{
-                ev.target.classList.add('bg-success');
-                ev.target.classList.remove('bg-warning');
-            })
-        }else if(ev.target.classList.contains('bg-success')){
-            firebase.deleteTask(ev.target.id)
-            .then(id =>{
-                const userEmail = localStorage.getItem('userEmail');
-                refreshTasks(userEmail);
-            })
-        }
-        
-    }
-});
-
 function refreshTasks(userEmail){
     taskList.innerHTML = "";
     firebase.getUsersTasks(userEmail)
@@ -110,14 +118,39 @@ function refreshTasks(userEmail){
             const qs = data.data;
             qs.forEach((doc) => {
                 const newItem = document.createElement('li');
-                newItem.classList.add('list-group-item');
+                const button = document.createElement('button');
+                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between');
                 if(doc.data().isDone){
                     newItem.classList.add('bg-success');
+
+                    button.textContent = 'Delete';
+                    button.classList.add('btn', 'btn-danger', 'btn-sm', 'btn-block');
+                    button.style.width = '80px';
+                    button.id = doc.id;
+                    button.addEventListener('click', (ev) => {
+                        firebase.deleteTask(ev.target.id)
+                        .then(data =>{
+                            ev.target.classList.remove('bg-success');
+                            ev.target.classList.add('bg-warning');
+                            refreshTasks(userEmail);
+                        })
+                    });
                 }else{
                     newItem.classList.add('bg-warning');
+
+                    button.textContent = 'Confirm';
+                    button.classList.add('btn', 'btn-success', 'btn-sm', 'mr-2', 'btn-block');
+                    button.style.width = '80px';
+                    button.id = doc.id;
+                    button.addEventListener('click', (ev) => {
+                        firebase.confirmTask(ev.target.id)
+                        .then(data =>{
+                            refreshTasks(userEmail);
+                        })
+                    });
                 }
                 newItem.textContent = doc.data().name;
-                newItem.id = doc.id;
+                newItem.appendChild(button);
                 taskList.appendChild(newItem);
             });
         })

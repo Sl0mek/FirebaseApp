@@ -47,12 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
             qs.forEach((doc) => {
                 const newItem = document.createElement('li');
                 const button = document.createElement('button');
-                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between', 'shadow');
+                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between');
                 if(doc.data().isDone){
                     newItem.classList.add('bg-success');
 
                     button.textContent = 'Delete';
-                    button.classList.add('btn', 'btn-danger', 'btn-sm', 'btn-block');
+                    button.classList.add('btn', 'btn-danger', 'btn-sm', 'btn-block', 'shadow');
                     button.style.width = '80px';
                     button.id = doc.id;
                     button.addEventListener('click', (ev) => {
@@ -119,12 +119,12 @@ function refreshTasks(userEmail){
             qs.forEach((doc) => {
                 const newItem = document.createElement('li');
                 const button = document.createElement('button');
-                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between', 'shadow');
+                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between');
                 if(doc.data().isDone){
                     newItem.classList.add('bg-success');
 
                     button.textContent = 'Delete';
-                    button.classList.add('btn', 'btn-danger', 'btn-sm', 'btn-block');
+                    button.classList.add('btn', 'btn-danger', 'btn-sm', 'btn-block', 'shadow');
                     button.style.width = '80px';
                     button.id = doc.id;
                     button.addEventListener('click', (ev) => {

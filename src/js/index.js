@@ -4,7 +4,7 @@ const signUpButton = document.querySelector('button.btn.btn-primary');
 const logInButton = document.querySelector('button.btn.btn-outline-success');
 const loginSignContainer = document.querySelector('.login-sign-container');
 const logoutContainer = document.querySelector('.logout-container');
-const userEmailHeader = document.querySelector('h2.userEmail.mb-3');
+const userEmailHeader = document.querySelector('h2.userEmail.my-3');
 const containerDiv = document.querySelector('div.container.mb-3');
 const taskList = document.querySelector('ul#taskList.list-group.mt-3');
 const addButton = document.querySelector('button.btn.btn-success.mb-3.shadow');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             qs.forEach((doc) => {
                 const newItem = document.createElement('li');
                 const button = document.createElement('button');
-                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between');
+                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between', 'shadow');
                 if(doc.data().isDone){
                     newItem.classList.add('bg-success');
 
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     newItem.classList.add('bg-warning');
 
                     button.textContent = 'Confirm';
-                    button.classList.add('btn', 'btn-success', 'btn-sm', 'mr-2', 'btn-block');
+                    button.classList.add('btn', 'btn-success', 'btn-sm', 'mr-2', 'btn-block', 'shadow');
                     button.style.width = '80px';
                     button.id = doc.id;
                     button.addEventListener('click', (ev) => {
@@ -119,7 +119,7 @@ function refreshTasks(userEmail){
             qs.forEach((doc) => {
                 const newItem = document.createElement('li');
                 const button = document.createElement('button');
-                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between');
+                newItem.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between', 'shadow');
                 if(doc.data().isDone){
                     newItem.classList.add('bg-success');
 
@@ -139,7 +139,7 @@ function refreshTasks(userEmail){
                     newItem.classList.add('bg-warning');
 
                     button.textContent = 'Confirm';
-                    button.classList.add('btn', 'btn-success', 'btn-sm', 'mr-2', 'btn-block');
+                    button.classList.add('btn', 'btn-success', 'btn-sm', 'mr-2', 'btn-block', 'shadow');
                     button.style.width = '80px';
                     button.id = doc.id;
                     button.addEventListener('click', (ev) => {

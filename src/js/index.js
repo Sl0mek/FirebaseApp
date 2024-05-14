@@ -9,6 +9,7 @@ const containerDiv = document.querySelector('div.container.mb-3');
 const taskList = document.querySelector('ul#taskList.list-group.mt-3');
 const addButton = document.querySelector('button.btn.btn-success.mb-3.shadow');
 const taskNameInput = document.querySelector('input#taskName.form-control');
+const spinner = document.querySelector('div.d-flex.justify-content-evenly');
 
 
 logInButton.addEventListener('click', ev => {
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         .then(data =>{
                             ev.target.classList.remove('bg-success');
                             ev.target.classList.add('bg-warning');
+                            spinner.classList.remove('d-none');
                             refreshTasks(userEmail);
                         })
                     });
@@ -73,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.addEventListener('click', (ev) => {
                         firebase.confirmTask(ev.target.id)
                         .then(data =>{
+                            spinner.classList.remove('d-none');
                             refreshTasks(userEmail);
                         })
                     });
@@ -84,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 taskList.appendChild(newItem);
             });
+            spinner.classList.add('d-none');
         })
     } else {
         loginSignContainer.classList.remove('d-none');
@@ -102,13 +106,13 @@ addButton.addEventListener('click', ev => {
         firebase.addNewTaskToUser(userEmail, task)
         .then((data) => {
             console.log("Addedd: ", data);
+            spinner.classList.remove('d-none');
             refreshTasks(userEmail);
         })
         .catch((error) => {
             console.log(error);
         })
     }
-    
 });
 
 function refreshTasks(userEmail){
@@ -132,6 +136,7 @@ function refreshTasks(userEmail){
                         .then(data =>{
                             ev.target.classList.remove('bg-success');
                             ev.target.classList.add('bg-warning');
+                            spinner.classList.remove('d-none');
                             refreshTasks(userEmail);
                         })
                     });
@@ -145,6 +150,7 @@ function refreshTasks(userEmail){
                     button.addEventListener('click', (ev) => {
                         firebase.confirmTask(ev.target.id)
                         .then(data =>{
+                            spinner.classList.remove('d-none');
                             refreshTasks(userEmail);
                         })
                     });
@@ -153,5 +159,6 @@ function refreshTasks(userEmail){
                 newItem.appendChild(button);
                 taskList.appendChild(newItem);
             });
+            spinner.classList.add('d-none');
         })
 }
